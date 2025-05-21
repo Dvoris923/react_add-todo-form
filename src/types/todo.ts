@@ -3,7 +3,7 @@ import { User } from './user';
 export type Todo = {
   id: number;
   title: string;
-  comleted: boolean;
+  completed: boolean;
   userId: number;
-  user: User | null;
+  user?: User | null;
 };
