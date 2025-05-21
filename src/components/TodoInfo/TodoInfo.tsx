@@ -2,23 +2,28 @@ import React from 'react';
 import usersFromServer from '../../api/users';
 import classNames from 'classnames';
 import { UserInfo } from '../UserInfo';
-import { Todo } from '../../types/todo';
-import { User } from '../../types/user';
 
-type Props = {
-  todo: Todo;
+type InfoProps = {
+  todo: {
+    id: number;
+    title: string;
+    completed: boolean;
+    userId: number;
+  };
 };
 
-export const TodoInfo: React.FC<Props> = ({ todo }) => {
-  const user: User | undefined = usersFromServer.find(
-    us => us.id === todo.userId,
-  );
+export const TodoInfo: React.FC<InfoProps> = ({ todo }) => {
+  const user = usersFromServer.find(userf => userf.id === todo.userId);
+
+  if (!user) {
+    throw new Error(`User with ID ${todo.userId} not found`);
+  }
 
   return (
     <article
       data-id={todo.id}
       className={classNames('TodoInfo', {
-        'TodoInfo--complited': todo.comleted === true,
+        'TodoInfo--complited': todo.completed === true,
       })}
       key={todo.id}
     >
